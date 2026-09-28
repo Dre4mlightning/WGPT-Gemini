@@ -9,6 +9,11 @@ from google import genai
 load_dotenv()
 
 api_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
+
+if not api_key:
+    # If the key is missing from Render's environment, this prevents the SDK from falling back to OAuth
+    raise ValueError("GEMINI_API_KEY is not configured in the environment variables.")
+
 client = genai.Client(api_key=api_key)
 
 TELEMETRY_CACHE = {}
